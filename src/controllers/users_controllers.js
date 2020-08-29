@@ -27,9 +27,10 @@ userCtrl.checkToken = (req, res) =>{
     if (moment().unix() > payload.expiresAt){
         return res.json({done: 'expired'});
     }
-
     res.json({
-        done: 'accept'
+        done: 'accept',
+        rol: payload.userRol,
+        id: payload.userId
     })
 }
 

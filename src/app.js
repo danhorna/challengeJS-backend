@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
 //routes
 app.use('/api/users', require('./routes/users'));
+app.use('/api/apps', require('./routes/apps'));
 
 
 module.exports = app;
