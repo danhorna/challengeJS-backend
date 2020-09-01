@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getApps, getDevApps, updateApp, deleteApp } = require('../controllers/apps_controllers')
+const { getApps, getDevApps, updateApp, deleteApp, newApp, getAppById } = require('../controllers/apps_controllers');
 
 router.route('/')
     .get(getApps)
@@ -13,5 +13,11 @@ router.route('/updateapp')
 
 router.route('/deleteapp')
     .post(deleteApp)
+
+router.route('/newapp')
+    .post(newApp)
+
+router.route('/getbyid')
+    .post(getAppById)
 
 module.exports = router

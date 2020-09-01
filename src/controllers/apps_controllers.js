@@ -1,6 +1,5 @@
 const appsCtrl = {};
 const db = require('../database');
-const app = require('../app');
 
 appsCtrl.getApps = async (req,res) => {
     const apps = await db.query('SELECT * FROM apps');
@@ -18,8 +17,19 @@ appsCtrl.updateApp = async (req,res) => {
 }
 
 appsCtrl.deleteApp = async (req,res) =>{
-    console.log(req.body.id)
-    await db.query('DELETE FROM apps WHERE id = ?', [req.body.id]);
+    await db.query('DELETE FROM apps WHERE id = ?', [req.body.data.id]);
+    await db.query('DELETE FROM purchases WHERE app_id = ?',[req.body.data.id])
     res.send('done')
 }
+
+appsCtrl.newApp = (req,res) => {
+    db.query('INSERT INTO apps (name,creator,category,price,logo) VALUES (?,?,?,?,?)',[req.body.data.name,req.body.data.creator,req.body.data.category,req.body.data.price,req.body.data.logo]);
+    res.send('done')
+}
+
+appsCtrl.getAppById = async (req,res) => {
+    const app = await db.query('SELECT * FROM apps WHERE id = ?',[req.body.app_id])
+    res.send(app[0])
+}
+
 module.exports = appsCtrl

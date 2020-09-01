@@ -1,6 +1,5 @@
 const userCtrl = {};
 const db = require('../database');
-const { response } = require('../app');
 const bcrypt = require('bcrypt');
 const jwt = require('jwt-simple');
 const moment = require('moment');
@@ -21,14 +20,14 @@ userCtrl.checkToken = (req, res) =>{
         payload = jwt.decode(req.body.tokenls, process.env.TOKEN_KEY);
     } catch (err) {
         return res.json({
-            done: 'invalid'
+            done: false
         })
     }
     if (moment().unix() > payload.expiresAt){
-        return res.json({done: 'expired'});
+        return res.json({done: false});
     }
     res.json({
-        done: 'accept',
+        done: true,
         rol: payload.userRol,
         id: payload.userId
     })
@@ -52,7 +51,6 @@ userCtrl.login = async (req,res) => {
 }
 userCtrl.getUsers = async (req,res) => {
     const users = await db.query('SELECT * FROM usuarios');
-    console.log(users);
     res.send('ver consola');
 };
 userCtrl.createUser = async (req,res) => {
@@ -81,7 +79,6 @@ userCtrl.deleteUser = async (req,res) => {
 };
 userCtrl.getUser = async (req,res) => {
     const user = await db.query('SELECT * FROM usuarios WHERE id = ?', [req.params.id]);
-    console.log(user);
     res.send('ver consolita');
 };
 
